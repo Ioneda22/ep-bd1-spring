@@ -1,6 +1,8 @@
 package com.barbearia.EPBD.dto.pessoaDTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.br.CPF;
 import lombok.Data;
 import java.time.LocalDate;
 
@@ -8,7 +10,7 @@ import java.time.LocalDate;
 public class PessoaRequestDTO {
 
     @NotBlank(message = "O CPF é obrigatório")
-    @Size(min = 11, max = 11, message = "Tamanho de cpf inválido")
+    @CPF(message = "CPF inválido")
     private String cpf;
 
     @NotBlank(message = "O nome é obrigatório")
@@ -16,10 +18,12 @@ public class PessoaRequestDTO {
     private String nomeCompleto;
 
     @NotNull(message = "A data de nascimento é obrigatória")
-    @Past(message = "A data de nascimento deve ser no passado")
+    @Past(message = "A data deve ser no passado")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataNascimento;
 
     @Size(max = 20, message = "Telefone muito longo")
+    @Pattern(regexp = "^\\(\\d{2}\\) \\d{4,5}-\\d{4}$", message = "O telefone deve estar no formato (XX) XXXXX-XXXX")
     private String telefone;
 
     private String endereco;
