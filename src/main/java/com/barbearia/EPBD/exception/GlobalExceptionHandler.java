@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.Instant;
-import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -30,6 +29,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<StandardError> entityNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         return buildResponse(HttpStatus.NOT_FOUND, "Recurso não encontrado", e.getMessage(), request);
+    }
+
+    @ExceptionHandler(BusinessRuleException.class)
+    public ResponseEntity<StandardError> businessRule(BusinessRuleException e, HttpServletRequest request) {
+        return buildResponse(HttpStatus.CONFLICT, "Conflito de dados", e.getMessage(), request);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
@@ -52,7 +56,7 @@ public class GlobalExceptionHandler {
 
         return buildResponse(HttpStatus.BAD_REQUEST, "Dados inconsistentes", message, request);
     }
-    
+
     private ResponseEntity<StandardError> buildResponse(HttpStatus status, String error, String message, HttpServletRequest request) {
         StandardError err = new StandardError();
         err.setTimestamp(Instant.now());
