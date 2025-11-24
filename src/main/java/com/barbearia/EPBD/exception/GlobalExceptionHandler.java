@@ -6,6 +6,7 @@ import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -55,6 +56,18 @@ public class GlobalExceptionHandler {
         }
 
         return buildResponse(HttpStatus.BAD_REQUEST, "Dados inconsistentes", message, request);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<StandardError> jsonFormatError(HttpMessageNotReadableException e, HttpServletRequest request) {
+
+        String mensagem = "Erro no formato do JSON enviado.";
+
+        if (e.getMessage() != null && e.getMessage().contains("LocalDate")) {
+            mensagem = "Formato de data inválido. Use o padrão AAAA-MM-DD (Ex: 2000-12-31) e certifique-se que a data existe.";
+        }
+
+        return buildResponse(HttpStatus.BAD_REQUEST, "Formato Inválido", mensagem, request);
     }
 
     private ResponseEntity<StandardError> buildResponse(HttpStatus status, String error, String message, HttpServletRequest request) {
