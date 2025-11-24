@@ -3,3 +3,5 @@ spring.application.name=EPBD
 #LOCALE
 spring.web.locale-resolver=fixed
 spring.web.locale=pt_BR
+
+
