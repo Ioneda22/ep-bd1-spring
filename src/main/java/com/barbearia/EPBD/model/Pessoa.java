@@ -3,6 +3,7 @@ package com.barbearia.EPBD.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -24,7 +25,7 @@ public class Pessoa {
     private String nomeCompleto;
 
     @Column(name = "data_nascimento", nullable = false)
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
 
     @Column(length = 20)
     private String telefone;
