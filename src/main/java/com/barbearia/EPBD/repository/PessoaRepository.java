@@ -14,4 +14,6 @@ public interface PessoaRepository extends JpaRepository<Pessoa, String> {
     Optional<Pessoa> findByEmail(String email);
 
     Page<Pessoa> findAll(Pageable pageable);
+
+    boolean existsByEmail(String email);
 }
