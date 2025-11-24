@@ -1,6 +1,7 @@
 package com.barbearia.EPBD.dto.pessoaDTO;
 
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.br.CPF;
 import lombok.Data;
 import java.time.LocalDate;
 
@@ -8,7 +9,7 @@ import java.time.LocalDate;
 public class PessoaRequestDTO {
 
     @NotBlank(message = "O CPF é obrigatório")
-    @Size(min = 11, max = 11, message = "Tamanho de cpf inválido")
+    @CPF(message = "CPF inválido")
     private String cpf;
 
     @NotBlank(message = "O nome é obrigatório")
@@ -22,7 +23,7 @@ public class PessoaRequestDTO {
     @Size(max = 20, message = "Telefone muito longo")
     private String telefone;
 
-    private String endereco;
+    private String endereco; 
 
     @NotBlank(message = "O e-mail é obrigatório")
     @Email(message = "Formato de e-mail inválido")

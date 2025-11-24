@@ -3,6 +3,7 @@ package com.barbearia.EPBD.controller;
 import com.barbearia.EPBD.dto.pessoaDTO.PessoaRequestDTO;
 import com.barbearia.EPBD.dto.pessoaDTO.PessoaResponseDTO;
 import com.barbearia.EPBD.service.PessoaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,7 @@ public class PessoaController {
 
     @PostMapping
     public ResponseEntity<PessoaResponseDTO> create(
-            @RequestBody PessoaRequestDTO pessoaRequestDTO,
+            @RequestBody @Valid PessoaRequestDTO pessoaRequestDTO,
             UriComponentsBuilder uriComponentsBuilder) {
 
         PessoaResponseDTO pessoaResponseDTO = pessoaService.create(pessoaRequestDTO);
