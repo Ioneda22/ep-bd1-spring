@@ -3,6 +3,7 @@ package com.barbearia.EPBD.service;
 import com.barbearia.EPBD.config.SecurityConfig;
 import com.barbearia.EPBD.dto.pessoaDTO.PessoaRequestDTO;
 import com.barbearia.EPBD.dto.pessoaDTO.PessoaResponseDTO;
+import com.barbearia.EPBD.exception.BusinessRuleException;
 import com.barbearia.EPBD.exception.ResourceNotFoundException;
 import com.barbearia.EPBD.model.Pessoa;
 import com.barbearia.EPBD.repository.PessoaRepository;
@@ -46,11 +47,11 @@ public class PessoaService {
     @Transactional
     public PessoaResponseDTO create(PessoaRequestDTO pessoaRequestDTO) {
         if (pessoaRepository.existsById(pessoaRequestDTO.getCpf())) {
-            throw new IllegalArgumentException("Já existe uma pessoa cadastrada com este CPF.");
+            throw new BusinessRuleException("Já existe uma pessoa cadastrada com este CPF.");
         }
 
         if (pessoaRepository.existsByEmail(pessoaRequestDTO.getEmail())) {
-            throw new IllegalArgumentException("Já existe uma pessoa cadastrada com este E-mail.");
+            throw new BusinessRuleException("Já existe uma pessoa cadastrada com este E-mail.");
         }
 
         Pessoa pessoa = new Pessoa();
