@@ -1,7 +1,6 @@
 package com.barbearia.EPBD.dto.pessoaDTO;
 
 import jakarta.validation.constraints.*;
-import org.hibernate.validator.constraints.br.CPF;
 import lombok.Data;
 import java.time.LocalDate;
 
@@ -9,7 +8,7 @@ import java.time.LocalDate;
 public class PessoaRequestDTO {
 
     @NotBlank(message = "O CPF é obrigatório")
-    @CPF(message = "CPF inválido")
+    @Size(min = 11, max = 11, message = "Tamanho de cpf inválido")
     private String cpf;
 
     @NotBlank(message = "O nome é obrigatório")

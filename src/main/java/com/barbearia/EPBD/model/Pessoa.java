@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
-import org.hibernate.validator.constraints.br.CPF;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -20,7 +19,6 @@ import java.time.LocalDate;
 public class Pessoa {
 
     @Id
-    @CPF
     @Column(length = 11)
     private String cpf;
 
