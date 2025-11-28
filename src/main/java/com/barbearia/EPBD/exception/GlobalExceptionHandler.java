@@ -36,12 +36,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<StandardError> businessRule(BusinessRuleException e, HttpServletRequest request) {
         return buildResponse(HttpStatus.CONFLICT, "Conflito de dados", e.getMessage(), request);
     }
-
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<StandardError> databaseIntegrity(DataIntegrityViolationException e, HttpServletRequest request) {
-        return buildResponse(HttpStatus.CONFLICT, "Conflito de dados", "Este CPF ou Email já está cadastrado no sistema.", request);
-    }
-
+    
     @ExceptionHandler(TransactionSystemException.class)
     public ResponseEntity<StandardError> transactionError(TransactionSystemException e, HttpServletRequest request) {
 
