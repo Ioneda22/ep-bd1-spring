@@ -24,7 +24,7 @@ public class BarbeiroChefeService {
     }
 
     @Transactional(readOnly = true)
-    public BarbeiroChefeResponseDTO findById(String id) {
+    public BarbeiroChefeResponseDTO findById(Integer id) {
         return barbeiroChefeRepository.findById(id)
                 .map(barbeiroChefeMapper::toResponseDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Barbeiro Chefe não encontrado com Id: " + id));

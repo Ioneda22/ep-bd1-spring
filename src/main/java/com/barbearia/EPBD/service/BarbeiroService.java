@@ -40,7 +40,7 @@ public class BarbeiroService {
     @Transactional
     public BarbeiroResponseDTO create(BarbeiroRequestDTO barbeiroRequestDTO) {
 
-        if(pessoaRepository.existsById(barbeiroRequestDTO.getCpf())) {
+        if (pessoaRepository.existsById(barbeiroRequestDTO.getCpf())) {
             throw new BusinessRuleException("Já existe uma pessoa cadastrada com este CPF.");
         }
 
@@ -54,6 +54,6 @@ public class BarbeiroService {
 
         barbeiroRepository.save(barbeiro);
 
-        return  barbeiroMapper.toResponseDTO(barbeiro);
+        return barbeiroMapper.toResponseDTO(barbeiro);
     }
 }
