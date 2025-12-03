@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.br.CPF;
 import lombok.*;
 
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
+@SuperBuilder
 @Entity
 @Table(name = "Pessoa")
 @Inheritance(strategy = InheritanceType.JOINED)
