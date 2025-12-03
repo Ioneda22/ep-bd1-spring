@@ -3,9 +3,11 @@ package com.barbearia.EPBD.service;
 import com.barbearia.EPBD.dto.clienteDTO.ClienteRequestDTO;
 import com.barbearia.EPBD.dto.clienteDTO.ClienteResponseDTO;
 import com.barbearia.EPBD.exception.BusinessRuleException;
+import com.barbearia.EPBD.exception.ResourceNotFoundException;
 import com.barbearia.EPBD.mapper.ClienteMapper;
 import com.barbearia.EPBD.model.Cliente;
 import com.barbearia.EPBD.repository.ClienteRepository;
+import com.barbearia.EPBD.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
+    private final PessoaRepository pessoaRepository;
     private final ClienteMapper clienteMapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -31,16 +34,16 @@ public class ClienteService {
     public ClienteResponseDTO findByCpf(String cpf) {
         return clienteRepository.findById(cpf)
                 .map(clienteMapper::toResponseDTO)
-                .orElse(null);
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado com CPF: " + cpf));
     }
 
     @Transactional
     public ClienteResponseDTO create(ClienteRequestDTO clienteRequestDTO) {
-        if (clienteRepository.existsById(clienteRequestDTO.getCpf())) {
+        if (pessoaRepository.existsById(clienteRequestDTO.getCpf())) {
             throw new BusinessRuleException("Já existe uma pessoa cadastrada com este CPF.");
         }
 
-        if (clienteRepository.existsByEmail(clienteRequestDTO.getEmail())) {
+        if (pessoaRepository.existsByEmail(clienteRequestDTO.getEmail())) {
             throw new BusinessRuleException("Já existe uma pessoa cadastrada com este E-mail.");
         }
 
