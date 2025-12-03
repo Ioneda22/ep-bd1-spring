@@ -39,7 +39,8 @@ public class PessoaController {
 
         PessoaResponseDTO pessoaResponseDTO = pessoaService.create(pessoaRequestDTO);
 
-        URI uri = uriComponentsBuilder.path("/barbearia/v1/pessoas/{cpf}")
+        URI uri = uriComponentsBuilder
+                .path("/barbearia/v1/pessoas/{cpf}")
                 .buildAndExpand(pessoaResponseDTO.getCpf())
                 .toUri();
 

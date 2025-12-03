@@ -36,11 +36,11 @@ public class ClienteService {
 
     @Transactional
     public ClienteResponseDTO create(ClienteRequestDTO clienteRequestDTO) {
-        if(clienteRepository.existsById(clienteRequestDTO.getCpf())) {
+        if (clienteRepository.existsById(clienteRequestDTO.getCpf())) {
             throw new BusinessRuleException("Já existe uma pessoa cadastrada com este CPF.");
         }
 
-        if(clienteRepository.existsByEmail(clienteRequestDTO.getEmail())) {
+        if (clienteRepository.existsByEmail(clienteRequestDTO.getEmail())) {
             throw new BusinessRuleException("Já existe uma pessoa cadastrada com este E-mail.");
         }
 
