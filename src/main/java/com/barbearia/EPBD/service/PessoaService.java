@@ -1,16 +1,12 @@
 package com.barbearia.EPBD.service;
 
-import com.barbearia.EPBD.dto.pessoaDTO.PessoaRequestDTO;
 import com.barbearia.EPBD.dto.pessoaDTO.PessoaResponseDTO;
-import com.barbearia.EPBD.exception.BusinessRuleException;
 import com.barbearia.EPBD.exception.ResourceNotFoundException;
 import com.barbearia.EPBD.mapper.PessoaMapper;
-import com.barbearia.EPBD.model.Pessoa;
 import com.barbearia.EPBD.repository.PessoaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PessoaService {
 
     private final PessoaRepository pessoaRepository;
-    private final PasswordEncoder passwordEncoder;
     private final PessoaMapper pessoaMapper;
 
     @Transactional(readOnly = true)
@@ -40,24 +35,5 @@ public class PessoaService {
         return pessoaRepository.findByEmail(email)
                 .map(pessoaMapper::toResponseDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Email não encontrado: " + email));
-    }
-
-    @Transactional
-    public PessoaResponseDTO create(PessoaRequestDTO pessoaRequestDTO) {
-        if (pessoaRepository.existsById(pessoaRequestDTO.getCpf())) {
-            throw new BusinessRuleException("Já existe uma pessoa cadastrada com este CPF.");
-        }
-
-        if (pessoaRepository.existsByEmail(pessoaRequestDTO.getEmail())) {
-            throw new BusinessRuleException("Já existe uma pessoa cadastrada com este E-mail.");
-        }
-
-        Pessoa pessoa = pessoaMapper.toEntity(pessoaRequestDTO);
-
-        pessoa.setSenha(passwordEncoder.encode(pessoaRequestDTO.getSenha()));
-
-        pessoaRepository.save(pessoa);
-
-        return pessoaMapper.toResponseDTO(pessoa);
     }
 }
