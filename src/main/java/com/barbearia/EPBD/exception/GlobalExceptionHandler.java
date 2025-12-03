@@ -3,7 +3,6 @@ package com.barbearia.EPBD.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -11,6 +10,8 @@ import org.springframework.transaction.TransactionSystemException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.HandlerMethodValidationException;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.Instant;
 
@@ -36,7 +37,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<StandardError> businessRule(BusinessRuleException e, HttpServletRequest request) {
         return buildResponse(HttpStatus.CONFLICT, "Conflito de dados", e.getMessage(), request);
     }
-    
+
     @ExceptionHandler(TransactionSystemException.class)
     public ResponseEntity<StandardError> transactionError(TransactionSystemException e, HttpServletRequest request) {
 
@@ -63,6 +64,28 @@ public class GlobalExceptionHandler {
         }
 
         return buildResponse(HttpStatus.BAD_REQUEST, "Formato Inválido", mensagem, request);
+    }
+
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    public ResponseEntity<StandardError> handleMethodValidation(HandlerMethodValidationException e, HttpServletRequest request) {
+
+        String message = e.getAllValidationResults().stream()
+                .flatMap(result -> result.getResolvableErrors().stream())
+                .map(error -> error.getDefaultMessage())
+                .findFirst()
+                .orElse("Erro de validação nos parâmetros");
+
+        return buildResponse(HttpStatus.BAD_REQUEST, "Parâmetro Inválido", message, request);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<StandardError> handleTypeMismatch(MethodArgumentTypeMismatchException e, HttpServletRequest request) {
+
+        String typeName = e.getRequiredType() != null ? e.getRequiredType().getSimpleName() : "desconhecido";
+        String message = String.format("O parâmetro '%s' deve ser do tipo '%s'. Valor recebido: '%s'",
+                e.getName(), typeName, e.getValue());
+
+        return buildResponse(HttpStatus.BAD_REQUEST, "Formato Inválido", message, request);
     }
 
     private ResponseEntity<StandardError> buildResponse(HttpStatus status, String error, String message, HttpServletRequest request) {

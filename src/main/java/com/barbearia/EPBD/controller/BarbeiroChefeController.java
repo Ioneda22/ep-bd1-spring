@@ -2,6 +2,7 @@ package com.barbearia.EPBD.controller;
 
 import com.barbearia.EPBD.dto.barbeiroChefeDTO.BarbeiroChefeResponseDTO;
 import com.barbearia.EPBD.service.BarbeiroChefeService;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,10 @@ public class BarbeiroChefeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BarbeiroChefeResponseDTO> findById(@PathVariable Integer id) {
+    public ResponseEntity<BarbeiroChefeResponseDTO> findById(
+            @PathVariable
+            @Min(value = 1, message = "Id deve ser maior que 0")
+            Integer id) {
         return ResponseEntity.ok(barbeiroChefeService.findById(id));
     }
 }
