@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BarbeiroChefeRepository extends JpaRepository<BarbeiroChefe, String> {
 
-    boolean existsByBarbeiroCpf(String cpf);
 }
