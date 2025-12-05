@@ -19,8 +19,8 @@ public class ServicoRequestDTO {
     @Positive(message = "O preço deve ser maior que zero")
     private BigDecimal preco;
 
-    @NotNull(message = "A duçao estimada é obrigatória")
-    @Positive(message = "O preço deve ser maior que zero")
+    @NotNull(message = "A duraçao estimada é obrigatória")
+    @Positive(message = "A duração deve ser maior que zero")
     private Integer duracaoEstimadaMin;
 
     private String descricao;
