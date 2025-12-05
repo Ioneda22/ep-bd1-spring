@@ -1,8 +1,10 @@
 package com.barbearia.EPBD.dto.servicoDTO;
 
+import com.barbearia.EPBD.dto.barbeiroDTO.BarbeiroResumoDTO;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 public class ServicoResponseDTO {
@@ -11,4 +13,5 @@ public class ServicoResponseDTO {
     private BigDecimal preco;
     private Integer duracaoEstimadaMin;
     private String descricao;
+    private List<BarbeiroResumoDTO> barbeiros;
 }
