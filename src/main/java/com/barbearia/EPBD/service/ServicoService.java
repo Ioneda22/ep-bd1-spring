@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class ServicoService {
+
     private final ServicoRepository servicoRepository;
     private final ServicoMapper servicoMapper;
 
