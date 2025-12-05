@@ -10,6 +10,6 @@ import org.mapstruct.Mapping;
 public interface ClienteMapper {
     ClienteResponseDTO toResponseDTO(Cliente cliente);
 
-    @Mapping(target="senha", ignore=true)
+    @Mapping(target = "senha", ignore = true)
     Cliente toEntity(ClienteRequestDTO dto);
 }
