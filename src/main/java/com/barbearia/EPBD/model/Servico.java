@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,6 +33,9 @@ public class Servico {
     @NotNull
     @Column(name = "duracao_estimada_min", nullable = false)
     private Integer duracaoEstimadaMin;
+
+    @ManyToMany(mappedBy = "servicos")
+    private List<Barbeiro> barbeiros;
 
     private String descricao;
 }
