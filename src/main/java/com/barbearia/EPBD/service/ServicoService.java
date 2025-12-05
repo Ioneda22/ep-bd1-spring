@@ -2,6 +2,7 @@ package com.barbearia.EPBD.service;
 
 import com.barbearia.EPBD.dto.servicoDTO.ServicoRequestDTO;
 import com.barbearia.EPBD.dto.servicoDTO.ServicoResponseDTO;
+import com.barbearia.EPBD.dto.servicoDTO.ServicoUpdateDTO;
 import com.barbearia.EPBD.exception.BusinessRuleException;
 import com.barbearia.EPBD.exception.ResourceNotFoundException;
 import com.barbearia.EPBD.mapper.ServicoMapper;
@@ -47,16 +48,13 @@ public class ServicoService {
     }
 
     @Transactional
-    public ServicoResponseDTO update(ServicoRequestDTO servicoRequestDTO, Integer id) {
+    public ServicoResponseDTO update(ServicoUpdateDTO servicoUpdateDTO, Integer id) {
         Servico servico = servicoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Servico com id " + id + " não encontrado."));
 
-        servico.setNome(servicoRequestDTO.getNome());
-        servico.setDescricao(servicoRequestDTO.getDescricao());
-        servico.setPreco(servicoRequestDTO.getPreco());
-        servico.setDuracaoEstimadaMin(servicoRequestDTO.getDuracaoEstimadaMin());
+        servicoMapper.updateEntityFromDto(servicoUpdateDTO, servico);
 
-        servicoRepository.save(servico);
+        servico = servicoRepository.save(servico);
 
         return servicoMapper.toResponseDto(servico);
     }
